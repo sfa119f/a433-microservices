@@ -1,0 +1,30 @@
+# docker compose schema version
+version: "3.7"
+
+services:
+  # app service
+  item-app:
+    # use item-app image that has been uploaded
+    image: ghcr.io/sfa119f/item-app:v1
+    # mapping port
+    ports:
+      - 80:8080
+    # restart policy when stop
+    restart: always
+    # run app service after db service already run
+    depends_on:
+      - item-db
+
+  # db service
+  item-db:
+    # use mongo:3 image
+    image: mongo:3
+    # use app-db volume
+    volumes:
+      - app-db:/data/db
+    # restart policy when stop
+    restart: always
+
+# volume service
+volumes:
+  app-db:
