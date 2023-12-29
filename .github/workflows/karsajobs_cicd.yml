@@ -23,6 +23,9 @@ jobs:
   test-app:
     runs-on: ubuntu-latest
     steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
       - name: test golang
         run: go test -v -short --count=1 $(go list ./...)
 
@@ -45,4 +48,4 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: sfa119f/karsajobs:latest
+          tags: ghcr.io/sfa119f/karsajobs:latest
