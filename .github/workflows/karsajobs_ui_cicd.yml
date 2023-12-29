@@ -1,0 +1,42 @@
+name: karsajobs_ui_cicd
+on:
+  push:
+    branches: 
+      - "karsajobs-ui"
+
+jobs:
+  lint-dockerfile:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
+      - name: get hadolint instalation
+        run: sudo wget -O /bin/hadolint https://github.com/hadolint/hadolint/releases/download/v1.16.3/hadolint-Linux-x86_64
+
+      - name: activate hadolint
+        run: sudo chmod +x /bin/hadolint
+
+      - name: run hadolint to Dockerfile
+        run: /bin/hadolint Dockerfile
+
+  build-app-karsajobs-ui:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
+      - name: Log in to GitHub Packages
+        uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Build and push Docker image
+        uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ghcr.io/sfa119f/karsajobs-ui:latest
