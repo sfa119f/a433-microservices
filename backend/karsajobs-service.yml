@@ -1,0 +1,23 @@
+# api version kubernetes
+apiVersion: v1
+# tipe kubernetes objek
+kind: Service
+metadata:
+  # label service
+  labels:
+    app: karsajobs
+  # nama service
+  name: karsajobs-service
+spec:
+  # tipe service
+  type: NodePort
+  ports:
+    # port
+  - port: 8080
+    # node port
+    nodePort: 30001
+    # protokol port
+    protocol: TCP
+  # selector pod
+  selector:
+    app: karsajobs

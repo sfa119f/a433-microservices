@@ -1,0 +1,49 @@
+# api version kubernetes
+apiVersion: apps/v1
+# tipe kubernetes objek
+kind: Deployment 
+metadata:
+  # nama deployment
+  name: karsajobs
+  # label deployment
+  labels:
+    app: karsajobs
+    tier: app
+spec:
+  # jumlah replika pod
+  replicas: 1
+  # selector pod
+  selector:
+    matchLabels:
+      tier: app
+  template:
+    metadata:
+      # label untuk pod
+      labels:
+        app: karsajobs
+        tier: app
+    spec:
+      containers:
+        # name container
+      - name: karsajobs
+        # image container
+        image: ghcr.io/sfa119f/karsajobs:latest
+        # ports container
+        ports:
+        - containerPort: 8080
+        # env container
+        env:
+          - name: APP_PORT
+            value: '8080'
+          - name: MONGO_HOST
+            value: mongo-service
+          - name: MONGO_USER
+            valueFrom:
+              secretKeyRef:
+                name: mongo-secret
+                key: MONGO_ROOT_USERNAME
+          - name: MONGO_PASS
+            valueFrom:
+              secretKeyRef:
+                name: mongo-secret
+                key: MONGO_ROOT_PASSWORD

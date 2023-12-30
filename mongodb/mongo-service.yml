@@ -1,0 +1,21 @@
+# api version kubernetes
+apiVersion: v1
+# tipe kubernetes objek
+kind: Service
+metadata:
+  # nama service
+  name: mongo-service
+  # label service
+  labels:
+    app: mongodb
+    tier: database
+spec:
+  ports:
+    # port
+  - port: 27017
+    protocol: TCP
+    # protokol port
+  # selector pod
+  selector:
+    app: mongodb
+    tier: database

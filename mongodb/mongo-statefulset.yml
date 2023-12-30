@@ -1,0 +1,72 @@
+# api version kubernetes
+apiVersion: apps/v1
+# tipe kubernetes objek
+kind: StatefulSet
+metadata:
+  # nama statefulset
+  name: mongodb
+  # label statefulset
+  labels:
+    app: database
+spec:
+  # selector pod
+  selector:
+    matchLabels:
+      app: mongodb
+      tier: database
+  # nama service yang digunakan
+  serviceName: mongo-service
+  # jumlah replika
+  replicas: 1
+  # waktu minimal pod aktif
+  minReadySeconds: 10
+  template:
+    metadata:
+      # label pod 
+      labels:
+        app: mongodb
+        tier: database
+    spec:
+      # waktu tunggu pod
+      terminationGracePeriodSeconds: 10
+      containers:
+        # nama container
+      - name: mongodb
+        # image container
+        image: mongo:4.0.3
+        # port container
+        ports:
+        - containerPort: 27017
+        # env container
+        env:
+        - name: MONGO_INITDB_ROOT_USERNAME_FILE
+          value: /etc/mongo-secret/MONGO_ROOT_USERNAME
+        - name: MONGO_INITDB_ROOT_PASSWORD_FILE
+          value: /etc/mongo-secret/MONGO_ROOT_PASSWORD 
+        # mounting volume
+        volumeMounts:
+        - name: mongo-data
+          mountPath: /data/db 
+        - name: mongo-config
+          mountPath: /config 
+        - name: mongo-secret
+          mountPath: /etc/mongo-secret
+      # volume yang digunakan
+      volumes:
+      - name: mongo-data
+        persistentVolumeClaim:
+          claimName: mongo-pvc
+      - name: mongo-config
+        configMap:
+          name: mongo-config
+          items:
+          - key: mongo.conf
+            path: mongo.conf 
+      - name: mongo-secret
+        secret:
+          secretName: mongo-secret
+          items:
+          - key: MONGO_ROOT_USERNAME
+            path: MONGO_ROOT_USERNAME
+          - key: MONGO_ROOT_PASSWORD
+            path: MONGO_ROOT_PASSWORD

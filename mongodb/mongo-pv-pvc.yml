@@ -1,0 +1,42 @@
+# api version kubernetes
+apiVersion: v1
+# tipe kubernetes objek
+kind: PersistentVolume
+metadata:
+  # nama persistent volume
+  name: mongo-pv
+  # label persistent volume
+  labels:
+    type: local
+spec:
+  # storage class
+  storageClassName: manual
+  # kapasitas storage
+  capacity:
+    storage: 1Gi
+  # akses storage
+  accessModes:
+    - ReadWriteOnce
+  # host path storage
+  hostPath:
+    path: "/mnt/data"
+
+---
+
+# api version kubernetes
+apiVersion: v1
+# tipe kubernetes objek
+kind: PersistentVolumeClaim
+metadata:
+  # nama persistent volume claim
+  name: mongo-pvc
+spec:
+  # storage class
+  storageClassName: manual
+  # akses storage
+  accessModes:
+    - ReadWriteOnce
+  # kapasitas storage yang diminta
+  resources:
+    requests:
+      storage: 1Gi

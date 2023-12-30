@@ -1,0 +1,37 @@
+# api version kubernetes
+apiVersion: apps/v1
+# tipe kubernetes objek
+kind: Deployment
+metadata:
+  # nama deployment
+  name: karsajobs-ui
+  # label deployment
+  labels:
+    app: karsajobs-ui
+    tier: app-ui
+spec:
+  # jumlah replika pod
+  replicas: 1
+  # selector pod
+  selector:
+    matchLabels:
+      tier: app-ui
+  template:
+    metadata:
+      # label untuk pod
+      labels:
+        app: karsajobs-ui
+        tier: app-ui
+    spec:
+      containers:
+        # name container
+      - name: karsajobs-ui
+        # image container
+        image: ghcr.io/sfa119f/karsajobs-ui:latest
+        # ports container
+        ports:
+        - containerPort: 8000
+        # env container
+        env:
+        - name: VUE_APP_BACKEND
+          value: "http://localhost:8080"

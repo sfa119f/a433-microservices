@@ -1,0 +1,12 @@
+# api version kubernetes
+apiVersion: v1
+# tipe kubernetes objekapiVersion: v1
+kind: ConfigMap
+metadata:
+  # nama configmap
+  name: mongo-config
+# data yang disimpan configmap
+data:
+  mongo.conf: |
+    storage:
+      dbPath: /data/db
