@@ -1,5 +1,5 @@
 # using base image Node.js version 14
-FROM node:16-alpine
+FROM node:14-alpine
 
 # set working directory to "/app"
 WORKDIR /app
@@ -8,7 +8,10 @@ WORKDIR /app
 COPY . .
 
 # install dependecies
-RUN npm install --production --unsafe-perm
+RUN npm install
+
+# expose port
+EXPOSE 3000
 
 # run server"
-CMD ["npm", "start"]
+CMD ["node", "index.js"]
