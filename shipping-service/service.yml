@@ -1,0 +1,21 @@
+# api version kubernetes
+apiVersion: v1
+# tipe kubernetes objek
+kind: Service
+metadata:
+  # label service
+  labels:
+    app: ecommerce
+    service: shipping
+  # nama service
+  name: shipping-service
+spec:
+  ports:
+    # port
+  - port: 3001
+    # protokol port
+    protocol: TCP
+  # selector pod
+  selector:
+    app: ecommerce
+    service: shipping

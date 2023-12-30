@@ -1,0 +1,45 @@
+# api version kubernetes
+apiVersion: apps/v1
+# tipe kubernetes objek
+kind: Deployment 
+metadata:
+  # nama deployment
+  name: order
+  # label deployment
+  labels:
+    app: ecommerce
+    service: order
+    tier: app
+spec:
+  # jumlah replika pod
+  replicas: 1
+  # selector pod
+  selector:
+    matchLabels:
+      app: ecommerce
+      service: order
+      tier: app
+  template:
+    metadata:
+      # label untuk pod
+      labels:
+        app: ecommerce
+        service: order
+        tier: app
+    spec:
+      containers:
+        # name container
+      - name: order
+        # image container
+        image: ghcr.io/sfa119f/order-service:latest
+        # pull image ketika tidak ada image
+        imagePullPolicy: IfNotPresent
+        # ports container
+        ports:
+        - containerPort: 3000
+        # env container
+        env:
+          - name: PORT
+            value: "3000"
+          - name: AMQP_URL
+            value: "amqp://dicoding:dicoding@rabbitmq.message-broker.svc.cluster.local:5672"

@@ -1,0 +1,44 @@
+# api version kubernetes
+apiVersion: networking.istio.io/v1alpha3
+# tipe kubernetes objek
+kind: Gateway
+metadata:
+  # nama gateway
+  name: order-gateway
+spec:
+  selector:
+    istio: ingressgateway # use istio default controller
+  servers:
+    # port configuration
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    # host configuration
+    hosts:
+    - "*"
+---
+# api version kubernetes
+apiVersion: networking.istio.io/v1alpha3
+# tipe kubernetes objek
+kind: VirtualService
+metadata:
+  # nama virtual service
+  name: order
+spec:
+  # virtual service host configuration
+  hosts:
+  - "*"
+  # virtual service gateway configuration
+  gateways:
+  - order-gateway
+  # virtual service http configuration
+  http:
+  - match:
+    - uri:
+        exact: /order
+    route:
+    - destination:
+        host: order-service
+        port:
+          number: 3000

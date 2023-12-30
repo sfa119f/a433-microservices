@@ -1,0 +1,10 @@
+# api version kubernetes
+apiVersion: v1
+# tipe kubernetes objek
+kind: Namespace
+metadata:
+  # nama namespace
+  name: mesh
+  # label namespace
+  labels:
+    app: mesh
