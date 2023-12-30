@@ -14,4 +14,4 @@ RUN npm install
 EXPOSE 3000
 
 # run server"
-CMD ["node", "index.js"]
+CMD ["npm", "start"]
