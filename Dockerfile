@@ -14,4 +14,4 @@ RUN npm install
 EXPOSE 3001
 
 # run server"
-CMD ["node", "index.js"]
+CMD ["npm", "start"]
