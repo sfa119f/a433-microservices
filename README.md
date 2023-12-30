@@ -1,2 +1,2 @@
-# a433-microservices
-Repository ini digunakan untuk kebutuhan kelas Belajar Membangun Arsitektur Microservices
+# kubernetes karsajobs
+This branch containts files for deploying E-Commerce App with Kubernetes
